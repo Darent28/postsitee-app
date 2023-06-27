@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import usersRoutes from './routes/users.routes.js';
-import postRoutes from './routes/post.routes.js';
-import indexRoutes from './routes/index.routes.js';
-import allowedOrigins from '../config/allowedOrigins.js';
+import usersRoutes from './src/routes/users.routes.js';
+import postRoutes from './src/routes/post.routes.js';
+import indexRoutes from './src/routes/index.routes.js';
+import allowedOrigins from './config/allowedOrigins.js';
 
 const app = express()
 
