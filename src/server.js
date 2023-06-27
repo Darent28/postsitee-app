@@ -3,15 +3,20 @@ import cors from 'cors';
 import usersRoutes from './routes/users.routes.js';
 import postRoutes from './routes/post.routes.js';
 import indexRoutes from './routes/index.routes.js';
-
+import allowedOrigins from '../config/allowedOrigins.js';
 
 const app = express()
 
+const corsOptions = {
+    origin: allowedOrigins,
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use(usersRoutes)
 app.use(postRoutes)
