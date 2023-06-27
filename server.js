@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors(corsOptions))
+app.use(cors())
 
 app.use(usersRoutes)
 app.use(postRoutes)

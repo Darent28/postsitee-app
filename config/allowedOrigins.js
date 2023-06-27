@@ -1,6 +1,5 @@
 const allowedOrigins = [
-
-    'https://postsite.onrender.com'
+    'https://postsite.onrender.com',
 ]
 
 
