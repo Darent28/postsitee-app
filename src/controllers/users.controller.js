@@ -1,4 +1,4 @@
-import { pool } from '../../postsitee-app/src/db.js'
+import { pool } from '../db.js'
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs';
 
