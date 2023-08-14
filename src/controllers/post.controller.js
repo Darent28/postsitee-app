@@ -1,17 +1,30 @@
 import { pool } from '../db.js'
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const postPost = async (req, res) => { 
+  const {tittle, text, id_user} = req.body
 
-    const {tittle, text, id_user} = req.body
-    
-    await pool.query('INSERT INTO tb_post (tittle, _text, id_user) VALUES (?,?,?)', [tittle, text, id_user]) 
-    res.status(200).json('Successfull'); 
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image provided' });
+  }
+
+  const imagePath = path.join(path.join(__dirname, '../uploads', req.file.filename))
+
+  const imageBuffer = fs.readFileSync(imagePath);
+
+  await pool.query('INSERT INTO tb_post (tittle, _text, id_user, image_data) VALUES (?,?,?,?)', [tittle, text, id_user, imageBuffer]) 
+  
+  res.status(200).json('Successfull'); 
 }
 
 export const getPost = async (req, res) => { 
 
-    
-    const [rows] = await pool.query('Select p.id_post, p.tittle, p._text, s.name, p._date, p.id_user from tb_post p inner join tb_user s on p.id_user = s.id') 
+    const [rows] = await pool.query('Select p.id_post, p.tittle, p._text, s.name, p._date, p.id_user, p.image_data from tb_post p inner join tb_user s on p.id_user = s.id') 
 
     if (rows.length >= 0) {
 
