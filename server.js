@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import usersRoutes from './src/routes/users.routes.js';
 import postRoutes from './src/routes/post.routes.js';
+import commentRoutes from './src/routes/comment.routes.js';
 import indexRoutes from './src/routes/index.routes.js';
 import allowedOrigins from './config/allowedOrigins.js';
 
@@ -20,6 +21,7 @@ app.use(cors())
 
 app.use(usersRoutes)
 app.use(postRoutes)
+app.use(commentRoutes)
 app.use(indexRoutes)
 
 

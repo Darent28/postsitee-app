@@ -18,13 +18,13 @@ export const postPost = async (req, res) => {
   const imageBuffer = fs.readFileSync(imagePath);
 
   await pool.query('INSERT INTO tb_post (tittle, _text, id_user, image_data) VALUES (?,?,?,?)', [tittle, text, id_user, imageBuffer]) 
-  
+
   res.status(200).json('Successfull'); 
 }
 
 export const getPost = async (req, res) => { 
 
-    const [rows] = await pool.query('Select p.id_post, p.tittle, p._text, s.name, p._date, p.id_user, p.image_data from tb_post p inner join tb_user s on p.id_user = s.id') 
+    const [rows] = await pool.query('Select p.id_post, p.tittle, p._text, s.name, p._date, p.id_user, p.image_data from tb_post p inner join tb_user s on p.id_user = s.id ORDER BY p._date DESC') 
 
     if (rows.length >= 0) {
 
