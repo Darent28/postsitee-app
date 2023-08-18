@@ -19,6 +19,7 @@ export const postPost = async (req, res) => {
 
   await pool.query('INSERT INTO tb_post (tittle, _text, id_user, image_data) VALUES (?,?,?,?)', [tittle, text, id_user, imageBuffer]) 
 
+
   res.status(200).json('Successfull'); 
 }
 
@@ -28,7 +29,7 @@ export const getPost = async (req, res) => {
 
     if (rows.length >= 0) {
 
-        res.status(200).json(rows); 
+      res.status(200).json(rows); 
 
     } else {
 

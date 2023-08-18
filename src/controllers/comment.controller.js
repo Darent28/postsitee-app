@@ -10,7 +10,7 @@ export const postComment = async (req, res) => {
 }
 
 export const getComment = async (req, res) => {
-    const [rows] = await pool.query('Select c._comment, c.c_date, u.name From tb_comment c inner join tb_user u on  c.id_user = u.id ORDER BY c.c_date DESC') 
+    const [rows] = await pool.query('Select c._comment, c.c_date, u.name, c.id_post From tb_comment c inner join tb_user u on  c.id_user = u.id ORDER BY c.c_date DESC') 
 
     if (rows.length >= 0) {
 
