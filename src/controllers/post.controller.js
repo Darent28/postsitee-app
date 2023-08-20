@@ -40,7 +40,7 @@ export const getPost = async (req, res) => {
 
 export const deletePost = async (req, res) => { 
 
-    const { id } = req.params;
+   const { id } = req.params;
 
     try {
       await pool.query('DELETE FROM tb_post WHERE id_post = ?', [id]);
