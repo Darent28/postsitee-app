@@ -9,13 +9,12 @@ const __dirname = path.dirname(__filename);
 export const postPost = async (req, res) => { 
   const {tittle, text, id_user} = req.body
 
-  if (!req.file) {
-    return res.status(400).json({ error: 'No image provided' });
+  let imageBuffer = null;
+
+  if (req.file) {
+    const imagePath = path.join(path.join(__dirname, '../uploads', req.file.filename));
+    imageBuffer = fs.readFileSync(imagePath);
   }
-
-  const imagePath = path.join(path.join(__dirname, '../uploads', req.file.filename))
-
-  const imageBuffer = fs.readFileSync(imagePath);
 
   await pool.query('INSERT INTO tb_post (tittle, _text, id_user, image_data) VALUES (?,?,?,?)', [tittle, text, id_user, imageBuffer]) 
 
