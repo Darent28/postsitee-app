@@ -38,7 +38,7 @@ export const postPost = async (req, res) => {
 export const getPost = async (req, res) => { 
 
     // const [rows] = await pool.query('Select p.id_post, p.tittle, p.text, s.name, p.createdPo, p.id_user, p.image_data from tb_post p inner join tb_user s on p.id_user = s.id ORDER BY p.createdPo DESC') 
-
+    try {
     const posts = await prisma.post.findMany({
       orderBy: {
         createdPo: 'desc', 
@@ -57,9 +57,12 @@ export const getPost = async (req, res) => {
         },
       },
     });
- 
-    res.status(200).json(posts); 
-   
+      
+      res.status(200).json(posts); 
+      
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
  
     // if (!posts) {
   
