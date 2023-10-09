@@ -1,26 +1,35 @@
+import { PrismaClient } from '@prisma/client';
 import { pool } from '../db.js'
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs';
 
 
+const prisma = new PrismaClient();
 
 export const getUser = async (req, res) => { 
-    const [rows] = await pool.query('SELEXT * FROM tb_user') 
+    // const [rows] = await pool.query('SELECT * FROM tb_user') 
+    const [rows] = await prisma.user.findMany()
     res.json(rows)
 }
 
 
 export const postUserlogin = async (req, res) => { 
 
-    const {name, password} = req.body
+    const {name, password = "123"} = req.body
 
-    const [rows] = await pool.query('SELECT * FROM tb_user WHERE name = ?', [name])
+    // const [rows] = await pool.query('SELECT * FROM tb_user WHERE name = ?', [name])
 
-    if (rows.length <= 0){
-        return res.status(401).json('Usuario o contraseña incorrectos');
+    const [user] = await prisma.user.findMany({
+        where: {
+            name: name,
+        },
+    });
+
+    if (user.length <= 0){
+        return res.status(401).json('Usuario o contraseña no existe');
     }
+   
 
-    const user = rows[0];
     
     if (!user || !(await bcryptjs.compare(password, user.password))){
         return res.status(401).json('Usuario o contraseña incorrectos');
@@ -40,11 +49,26 @@ export const protectedLogin = async (req, res) => {
 
 export const createUser = async (req, res) => {
 
-    const {name, email, password, password_confirm} = req.body
+    const {name, email, password } = req.body
+
+    const password_confirm = password;
+
     let passwordHaash = await  bcryptjs.hash(password, 8)
+    
     if(password === password_confirm) { 
         
-        await pool.query('INSERT INTO tb_user (name, email, password) VALUES (?,?,?)', [name, email, passwordHaash])
+        // await pool.query('INSERT INTO tb_user (name, email, password) VALUES (?,?,?)', [name, email, passwordHaash])
+
+        await prisma.user.create({
+            data: {
+              name: name,
+              email: email,
+              password: passwordHaash,
+            },
+        });
+          
+          // Cerrar la conexión a Prisma cuando hayas terminado
+        await prisma.$disconnect();
         res.status(200).json('Successfull'); 
   
     } else {

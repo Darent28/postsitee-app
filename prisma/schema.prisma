@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String
+  password      String
+  imgPhoto      Bytes?
+  imgCover      Bytes?
+  createdUs     DateTime @default(now())
+  updatedUs     DateTime @updatedAt
+  posts         Post[]
+  comments      Comment[]
+  reactions     Reaction[]
+  @@map("tb_user")
+}
+
+model Post {
+  id_post       Int       @id @default(autoincrement())
+  tittle        String    @db.VarChar(50)
+  text          String 
+  id_user       Int 
+  createdPo     DateTime  @default(now())
+  image_data    Bytes?
+  user          User      @relation(fields: [id_user], references: [id])
+  comments      Comment[]
+  reactions     Reaction[]
+  @@map("tb_post")
+}
+
+model Comment {
+  id_comment    Int       @id @default(autoincrement())
+  comment       String
+  createdCo     DateTime  @default(now())
+  id_post       Int
+  id_user       Int
+  post          Post      @relation(fields: [id_post], references: [id_post])
+  user          User      @relation(fields: [id_user], references: [id])
+  @@map("tb_comment")
+}
+
+model Reaction {
+  id_reaction   Int       @id @default(autoincrement())
+  reaction      Int       @default(1)
+  id_post       Int
+  id_user       Int
+  post          Post      @relation(fields: [id_post], references: [id_post])
+  user          User      @relation(fields: [id_user], references: [id])
+  @@map("tb_reaction")
+}
