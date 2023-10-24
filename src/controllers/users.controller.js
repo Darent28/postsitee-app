@@ -15,7 +15,7 @@ export const getUser = async (req, res) => {
 
 export const postUserlogin = async (req, res) => { 
 
-    const {name, password = "123"} = req.body
+    const {name, password } = req.body
 
     // const [rows] = await pool.query('SELECT * FROM tb_user WHERE name = ?', [name])
 
