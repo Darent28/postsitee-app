@@ -7,16 +7,18 @@ import reactionRoutes from './src/routes/reaction.routes.js';
 import indexRoutes from './src/routes/index.routes.js';
 import allowedOrigins from './config/allowedOrigins.js';
 
+
 const app = express()
 
 const corsOptions = {
     origin: allowedOrigins,
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD'],
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    optionsSuccessStatus: 204,
 };
 
 app.use(express.static('public'))
-app.use(express.json())
+app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 

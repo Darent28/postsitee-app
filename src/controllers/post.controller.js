@@ -11,9 +11,8 @@ const prisma = new PrismaClient();
 export const postPost = async (req, res) => { 
   const {tittle, text, id_user} = req.body
 
-  let imageBuffer = null;
-
   const userId = parseInt(id_user, 10);
+  let imageBuffer = null;
 
   if (req.file) {
     const imagePath = path.join(path.join(__dirname, '../uploads', req.file.filename));
@@ -128,7 +127,7 @@ export const geteditPost = async (req, res) => {
 
     res.status(200).json(post);
   } catch (error) {
-    console.error('Error deleting post:', error);
+    console.error('Error getting post:', error);
     res.status(500).json('error');
   } 
 }
