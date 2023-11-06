@@ -32,7 +32,8 @@ export const getProfile = async (req, res) => {
                 name:true,
                 email:true,
                 imgPhoto:true,
-                imgCover:true
+                imgCover:true,
+                about: true
             }
         })
         res.status(200).json(user)
@@ -218,14 +219,14 @@ export const edituserPassword = async (req, res) => {
     const {password} = req.body;
     const id_user = parseInt(id)
     
-
+    let passwordHaash = await  bcryptjs.hash(password, 8)
 
     try {
       // await pool.query('UPDATE tb_post SET tittle = ?, _text = ? WHERE id_post = ?', [title, text, id]);
       await prisma.user.update({
         where: { id: id_user },
         data: {
-          password:password
+          password:passwordHaash
         },
       })
       res.status(200).json('success');
@@ -234,6 +235,7 @@ export const edituserPassword = async (req, res) => {
       res.status(500).json('error');
     } 
 }
+
 
 export const deleteuser = async (req, res) => {
     const { id } = req.params;
@@ -249,4 +251,24 @@ export const deleteuser = async (req, res) => {
       console.error('Error deleting user:', error);
       res.status(500).json('error');
     } 
+}
+
+export const edituserAbout = async (req, res) => {
+  const { id } = req.params;
+  const {about} = req.body;
+  const id_user = parseInt(id)
+
+  try {
+    
+    await prisma.user.update({
+      where: { id: id_user },
+      data: {
+        about:about
+      },
+    })
+    res.status(200).json('success');
+  } catch (error) {
+    console.error('Error Editing user:', error);
+    res.status(500).json('error');
+  } 
 }

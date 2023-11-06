@@ -142,3 +142,39 @@ export const geteditPost = async (req, res) => {
     res.status(500).json('error');
   } 
 }
+
+export const getPostProfile = async (req, res) => { 
+  const { id } = req.params;
+  const id_user = parseInt(id)
+  
+  try {
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      createdPo: 'desc', 
+    },
+    where: {
+      id_user: id_user
+    },
+    select: {
+      id_post: true,
+      tittle: true,
+      text: true,
+      createdPo: true,
+      id_user: true,
+      image_data: true,
+      user: {
+        select: {
+          name: true,
+          imgPhoto: true
+        },
+      },
+    },
+  });
+    
+    res.status(200).json(posts); 
+    
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+
+}

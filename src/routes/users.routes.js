@@ -8,7 +8,8 @@ import { getUser,
         getProfile,
         edituserCover,
         edituser,
-        edituserPassword
+        edituserPassword,
+        edituserAbout
         } from '../controllers/users.controller.js';
 import multer from 'multer';
 import path from 'path';
@@ -62,7 +63,7 @@ router.put ("/editUserPhoto/:id", UploadPhoto, edituserPhoto)
 router.put ("/editUserCover/:id", UploadPhoto2, edituserCover)
 router.put ("/editUser/:id", UploadPhoto, edituser)
 router.put ("/editUserPassword/:id", edituserPassword)
-
+router.put ("/edituserAbout/:id", edituserAbout)
 
 
 export default router;

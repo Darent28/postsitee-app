@@ -17,6 +17,7 @@ model User {
   password      String
   imgPhoto      Bytes?
   imgCover      Bytes?
+  about         String?
   createdUs     DateTime @default(now())
   updatedUs     DateTime @updatedAt
   posts         Post[]

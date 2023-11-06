@@ -2,7 +2,7 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { postPost, getPost, deletePost, editPost, geteditPost } from '../controllers/post.controller.js';
+import { postPost, getPost, deletePost, editPost, geteditPost, getPostProfile } from '../controllers/post.controller.js';
 
 const router = Router();
 
@@ -21,9 +21,13 @@ const fileUpload = multer({
 }).single('image_data')
 
 router.post ("/post", fileUpload, postPost);
+
 router.get ("/getpost", getPost);
 router.get ("/getPost/:id", geteditPost);
+router.get ("/getPostProfile/:id", getPostProfile)
+
 router.delete ("/deletePost/:id", deletePost);
+
 router.put ("/editPost/:id", fileUpload, editPost);
 
 export default router;
