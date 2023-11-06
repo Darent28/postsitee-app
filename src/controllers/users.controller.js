@@ -196,21 +196,14 @@ export const edituser = async (req, res) => {
     const {name, email} = req.body;
     const id_user = parseInt(id)
     
-    let imageBuffer = null;
-    
-    if (req.file) {
-        const imagePath = path.join(path.join(__dirname, '../uploads', req.file.filename));
-        imageBuffer = fs.readFileSync(imagePath);
-    }
-
+   
     try {
       // await pool.query('UPDATE tb_post SET tittle = ?, _text = ? WHERE id_post = ?', [title, text, id]);
       await prisma.user.update({
         where: { id: id_user },
         data: {
           name:name,
-          email:email,  
-          imgCover:imageBuffer
+          email:email
         },
       })
       res.status(200).json('success');

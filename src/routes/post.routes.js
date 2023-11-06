@@ -24,6 +24,6 @@ router.post ("/post", fileUpload, postPost);
 router.get ("/getpost", getPost);
 router.get ("/getPost/:id", geteditPost);
 router.delete ("/deletePost/:id", deletePost);
-router.put ("/editPost/:id", editPost);
+router.put ("/editPost/:id", fileUpload, editPost);
 
 export default router;

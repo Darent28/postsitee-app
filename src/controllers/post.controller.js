@@ -52,6 +52,7 @@ export const getPost = async (req, res) => {
         user: {
           select: {
             name: true,
+            imgPhoto: true
           },
         },
       },
@@ -96,6 +97,14 @@ export const editPost = async (req, res) => {
   const { id } = req.params;
   const { tittle, text } = req.body;
   const idpost = parseInt(id)
+
+  let imageBuffer = null;
+
+  if (req.file) {
+    const imagePath = path.join(path.join(__dirname, '../uploads', req.file.filename));
+    imageBuffer = fs.readFileSync(imagePath);
+  }
+
   try {
     // await pool.query('UPDATE tb_post SET tittle = ?, _text = ? WHERE id_post = ?', [title, text, id]);
     await prisma.post.update({
@@ -103,6 +112,7 @@ export const editPost = async (req, res) => {
       data: {
         tittle:tittle,
         text:text,
+        image_data: imageBuffer,
       },
     })
     res.status(200).json('success');
@@ -122,6 +132,7 @@ export const geteditPost = async (req, res) => {
     select: {
       tittle:true, 
       text:true,
+      
     },
    })
 
