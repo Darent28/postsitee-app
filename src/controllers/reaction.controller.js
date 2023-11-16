@@ -38,13 +38,13 @@ export const updateReaction = async (req, res) => {
         })
 
         if (row.length > 0) {
- 
-            let react = row.reaction === 1 ? 0 : 0;
+            const fistrow = row[0];
+
+            let react = fistrow.reaction === 1 ? 0 : 1;
 
             await prisma.reaction.update({
                 where: {
-                    id_post: id_post,
-                    id_user: id_user,
+                    id_reaction: fistrow.id_reaction,
                 },
                 data: {
                     reaction: react,
